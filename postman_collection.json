@@ -1,0 +1,398 @@
+{
+	"info": {
+		"_postman_id": "b0eb05d9-fb2d-49f3-b2b8-da79d485710b",
+		"name": "Boiler Plate",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34871781"
+	},
+	"item": [
+		{
+			"name": "Boiler BaseUrl",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Boiler API}}",
+					"host": [
+						"{{Boiler API}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register a user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Jermey Johnson\",\r\n  \"email\": \"jermey25@ethereal.email\",\r\n  \"password\": \"rguBhhJNjeC5JeFNPm\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Boiler API}}/auth/register",
+					"host": [
+						"{{Boiler API}}"
+					],
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login(Refresh token changes after logout)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Verify Access token is not null, Email validity and Refresh token expiry date\", function () {\r",
+							"\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.tokens.access.token).to.not.be.null; // Verify access token is not null\r",
+							"    pm.expect(jsonData.user.email).to.eql(\"jermey25@ethereal.email\"); // Verify email is valid\r",
+							"    pm.expect(jsonData.tokens.refresh.expires).to.contain(\"2025-05-13\"); // Verify refresh token expiration date\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"jermey25@ethereal.email\",\r\n  \"password\": \"rguBhhJNjeC5JeFNPm\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Boiler API}}/auth/login",
+					"host": [
+						"{{Boiler API}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Refresh auth tokens",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2N2ZjNDEzODI5ZTQ5OTI5NzRkOTEzZWIiLCJpYXQiOjE3NDQ4MzY4NTcsImV4cCI6MTc0NDgzODY1NywidHlwZSI6ImFjY2VzcyJ9.gZTRI91Gc4nS0ZBM3B4CPpBBON4cYU3IwXI_ALbq0Nc\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Boiler API}}/auth/refresh-tokens",
+					"host": [
+						"{{Boiler API}}"
+					],
+					"path": [
+						"auth",
+						"refresh-tokens"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"pm.test(\"Response body is empty\", function () {\r",
+							"    pm.expect(pm.response.text()).to.be.empty;\r",
+							"});\r",
+							"\r",
+							"    \r",
+							"    "
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2N2ZjNDEzODI5ZTQ5OTI5NzRkOTEzZWIiLCJpYXQiOjE3NDQ4MzUzNzcsImV4cCI6MTc0NzQyNzM3NywidHlwZSI6InJlZnJlc2gifQ.PASFhAyV4x5WujBVnOpgKmjlkvxi_WUUNghso8_PNCk\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Boiler API}}/auth/logout",
+					"host": [
+						"{{Boiler API}}"
+					],
+					"path": [
+						"auth",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send verification email",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 401\", function () {\r",
+							"    pm.response.to.have.status(401);\r",
+							"});\r",
+							"pm.test(\"Verify response message\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.message).to.eql(\"Please authenticate\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Boiler API}}/auth/send-verification-email",
+					"host": [
+						"{{Boiler API}}"
+					],
+					"path": [
+						"auth",
+						"send-verification-email"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify email",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Verify Access token is not null, Email validity and Refresh token expiry date\", function () {\r",
+							"\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.tokens.access.token).to.not.be.null; // Verify access token is not null\r",
+							"    pm.expect(jsonData.user.email).to.eql(\"jermey25@ethereal.email\"); // Verify email is valid\r",
+							"    pm.expect(jsonData.tokens.refresh.expires).to.contain(\"2025-05-13\"); // Verify refresh token expiration date\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2N2ZjNDEzODI5ZTQ5OTI5NzRkOTEzZWIiLCJpYXQiOjE3NDQ1ODUwMTYsImV4cCI6MTc0NDU4NjgxNiwidHlwZSI6ImFjY2VzcyJ9.qpKR1WleKzkIUULbZbFCn3BZNppOHpjhbJbO_F1l4tE",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Boiler API}}/auth/verify-email",
+					"host": [
+						"{{Boiler API}}"
+					],
+					"path": [
+						"auth",
+						"verify-email"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create user(By admin)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Laurel Baumbach\",\r\n  \"email\": \"laurel92@ethereal.email\",\r\n  \"password\": \"McarAHsCQJe88C3f7e\",\r\n  \"role\": \"user\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Boiler API}}/users",
+					"host": [
+						"{{Boiler API}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all users(By admin) Copy",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Boiler API}}/users",
+					"host": [
+						"{{Boiler API}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "Boiler API",
+			"value": "http://127.0.0.1:27017",
+			"type": "default"
+		}
+	]
+}
